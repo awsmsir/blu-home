@@ -11,7 +11,17 @@
     var OWNER = 'awsmsir'; // dono do repositório blu-home
     var REPO = 'blu-home'; // repositório público que hospeda a homepage e as releases do app
     var CURRENT_VERSION = '0.1.0'; // versão atual do app
-    var ASSET_KEY = 'AppImage'; // substring do asset instalável a usar
+
+    // Plataformas suportadas e como reconhecer os assets de cada uma na release.
+    var PLATFORMS = [
+        { key: 'windows', label: 'Windows', match: /\.(exe|msi|msix|appx)$/i, extra: 'setup' },
+        { key: 'macos', label: 'macOS', match: /\.(dmg|pkg)$/i, extra: 'dmg' },
+        { key: 'linux', label: 'Linux', match: /\.(appimage|deb|rpm)$/i, extra: 'appimage' },
+    ];
+    // Metadados gerados pelo electron-builder (vetor de assinatura etc.) — ignorar.
+    var IGNORE_ASSET = /\.(blockmap|sha256|sha512|yml|yaml)$/i;
+    // Links automáticos de changelog incluídos no corpo da release — não exibir.
+    var IGNORE_NOTE_LINE = /^\s*#*\s*\*{0,2}Full Changelog\*{0,2}:.*$/im;
 
     var api = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/releases/latest';
 
@@ -50,6 +60,41 @@
             .replace(/"/g, '&quot;');
     }
 
+    // --- Multiplataforma -------------------------------------------
+    function detectPlatform() {
+        var plat = String(navigator.platform || '').toLowerCase();
+        var ua = navigator.userAgent.toLowerCase();
+        if (plat.indexOf('win') === 0 || ua.indexOf('windows') !== -1) return 'windows';
+        if (plat.indexOf('mac') === 0 || ua.indexOf('mac') !== -1) return 'macos';
+        return 'linux';
+    }
+
+    // Melhor asset disponível de uma plataforma: prefere 'extra' (ex.: .dmg no macOS).
+    function pickAsset(assets, platform) {
+        var meta = null;
+        for (var p = 0; p < PLATFORMS.length; p++) {
+            if (PLATFORMS[p].key === platform) {
+                meta = PLATFORMS[p];
+                break;
+            }
+        }
+        if (!meta || !assets) return null;
+
+        var best = null;
+        for (var i = 0; i < assets.length; i++) {
+            var name = assets[i].name || '';
+            if (IGNORE_ASSET.test(name)) continue;
+            if (!meta.match.test(name)) continue;
+            if (!best) {
+                best = assets[i];
+            } else if (name.indexOf(meta.extra) !== -1 &&
+                (best.name || '').indexOf(meta.extra) === -1) {
+                best = assets[i];
+            }
+        }
+        return best;
+    }
+
     // --- Render ------------------------------------------------------
     function buildDownloadButton(release) {
         if (!release) {
@@ -58,28 +103,41 @@
             return;
         }
 
-        var asset = null;
-        if (release.assets && release.assets.length) {
-            var key = ASSET_KEY.toLowerCase();
-            for (var i = 0; i < release.assets.length; i++) {
-                var name = (release.assets[i].name || '').toLowerCase();
-                if (name.indexOf(key) !== -1) {
-                    asset = release.assets[i];
-                    break;
-                }
+        var currentOS = detectPlatform();
+        // Um botão por sistema operacional.
+        var perOS = {};
+        var available = [];
+        for (var p = 0; p < PLATFORMS.length; p++) {
+            var meta = PLATFORMS[p];
+            var asset = pickAsset(release.assets, meta.key);
+            if (asset) {
+                perOS[meta.key] = asset;
+                available.push(meta);
             }
-            if (!asset) asset = release.assets[0]; // fallback: primeiro asset
         }
 
-        var a = document.createElement('a');
-        a.className = 'btn btn--primary';
-        a.textContent = asset
-            ? 'Baixar ' + release.tag_name
-            : 'Baixar nova versão';
-        a.href = asset ? asset.browser_download_url : release.html_url;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        el.actions.appendChild(a);
+        if (!available.length) {
+            // Release sem nenhum asset de instalador: cai para a página da release.
+            var fallback = document.createElement('a');
+            fallback.className = 'btn btn--primary';
+            fallback.textContent = 'Baixar nova versão';
+            fallback.href = release.html_url;
+            fallback.target = '_blank';
+            fallback.rel = 'noopener';
+            el.actions.appendChild(fallback);
+        } else {
+            for (var i = 0; i < available.length; i++) {
+                var m = available[i];
+                var a = document.createElement('a');
+                a.className = 'btn ' + (m.key === currentOS ? 'btn--primary' : 'btn--ghost');
+                a.textContent = 'Baixar para ' + m.label;
+                a.href = perOS[m.key].browser_download_url || release.html_url;
+                a.title = perOS[m.key].name;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                el.actions.appendChild(a);
+            }
+        }
 
         addGhost();
     }
@@ -113,7 +171,7 @@
 
     function stateNewVersion(release) {
         el.latest.textContent = release.tag_name;
-        el.notes.textContent = release.body || '';
+        el.notes.textContent = String(release.body || '').replace(IGNORE_NOTE_LINE, '').trim();
         setBadge('Nova versão disponível', 'new');
         buildDownloadButton(release);
         el.hint.textContent = 'Baixe e instale a nova versão para continuar usando o app.';
@@ -121,7 +179,7 @@
 
     function stateSameVersion(release) {
         el.latest.textContent = release.tag_name;
-        el.notes.textContent = release.body || '';
+        el.notes.textContent = String(release.body || '').replace(IGNORE_NOTE_LINE, '').trim();
         setBadge('Esta é a versão mais recente', 'ok');
         buildDownloadButton(null);
     }

@@ -331,9 +331,13 @@ section.steps {
 }
 
 .steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    padding: 48px 0;
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
 
     .step {
         background: $surface-1;
@@ -400,7 +404,7 @@ code {
         align-items: flex-start;
     }
 
-    .steps {
+    .steps .container {
         grid-template-columns: 1fr;
     }
 

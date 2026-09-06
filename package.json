@@ -1,0 +1,14 @@
+{
+    "name": "blublublu-home",
+    "version": "0.1.0",
+    "description": "Homepage oficial do app Blublublu — divulgação e download via GitHub Releases",
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "build:css": "sass scss/styles.scss css/styles.css --style compressed",
+        "watch:css": "sass --watch scss/styles.scss css/styles.css",
+        "build": "npm run build:css",
+        "serve": "python3 -m http.server 8080"
+    },
+    "devDependencies": {}
+}

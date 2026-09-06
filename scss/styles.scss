@@ -1,0 +1,410 @@
+@use 'sass:color';
+
+// =============================================================
+// Blublublu — Homepage
+// Design espelhando a identidade visual do app (paleta teal).
+// =============================================================
+
+// --- Design tokens ----------------------------------------------------
+$bg: #151921;
+$surface-1: rgba(28, 33, 43, 0.86);
+$surface-solid: #1c212b;
+$surface-2: #232a36;
+$border: #2a3240;
+$text: #e6e8ed;
+$text-dim: #9aa3b2;
+$text-faint: #6b7484;
+
+$accent: #14b8a6;
+$accent-strong: #0f766e;
+$accent-soft: rgba(20, 184, 166, 0.14);
+
+$danger: #e5534b;
+$danger-soft: rgba(229, 83, 75, 0.14);
+$ok: #48bb78;
+
+$radius: 14px;
+$radius-sm: 9px;
+$shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+
+$font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+// --- Base -------------------------------------------------------------
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+    background: radial-gradient(1200px 600px at 15% -10%, rgba(20, 184, 166, 0.12), transparent 60%),
+        radial-gradient(1000px 500px at 90% 10%, rgba(229, 83, 75, 0.08), transparent 60%),
+        $bg;
+    color: $text;
+    font-family: $font;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: $accent;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+// --- Topo -------------------------------------------------------------
+.masthead {
+    padding: 26px 0;
+    border-bottom: 1px solid $border;
+    backdrop-filter: blur(20px) saturate(1.2);
+    background: $surface-solid;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.2px;
+
+    .dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 7px;
+        background: linear-gradient(135deg, $accent, $accent-strong);
+        box-shadow: 0 0 16px rgba(20, 184, 166, 0.5);
+    }
+}
+
+.nav {
+    display: flex;
+    gap: 6px;
+
+    a {
+        color: $text-dim;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: $radius-sm;
+        transition: color 120ms ease, background 120ms ease;
+
+        &:hover {
+            color: $text;
+            background: rgba(255, 255, 255, 0.06);
+            text-decoration: none;
+        }
+    }
+}
+
+// --- Hero -------------------------------------------------------------
+.hero {
+    text-align: center;
+    padding: 72px 0 40px;
+
+    h1 {
+        font-size: clamp(30px, 5vw, 48px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        margin-bottom: 16px;
+    }
+
+    p.lead {
+        color: $text-dim;
+        font-size: clamp(15px, 2vw, 18px);
+        max-width: 640px;
+        margin: 0 auto 28px;
+    }
+
+    .cta {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: $radius-sm;
+    padding: 12px 20px;
+    font-size: 14.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    &--primary {
+        background: $accent;
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(20, 184, 166, 0.3);
+
+        &:hover {
+            background: color.adjust($accent, $lightness: 4%);
+            box-shadow: 0 8px 24px rgba(20, 184, 166, 0.4);
+        }
+
+        &:disabled {
+            background: $surface-2;
+            color: $text-faint;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+    }
+
+    &--ghost {
+        background: $surface-2;
+        color: $text;
+        border: 1px solid $border;
+
+        &:hover {
+            background: color.adjust($surface-2, $lightness: 5%);
+        }
+    }
+}
+
+// --- Card de versão / download ---------------------------------------
+.version-card {
+    max-width: 520px;
+    margin: 0 auto 24px;
+    background: $surface-1;
+    backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 22px 24px;
+    text-align: left;
+
+    .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+
+            &--ok {
+                color: $ok;
+                background: rgba(72, 187, 120, 0.14);
+            }
+
+            &--new {
+                color: $accent;
+                background: $accent-soft;
+            }
+
+            &--checking {
+                color: $text-dim;
+                background: rgba(255, 255, 255, 0.06);
+            }
+        }
+    }
+
+    .card-versions {
+        display: flex;
+        gap: 20px;
+        color: $text-dim;
+        font-size: 13px;
+
+        b {
+            color: $text;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    .card-notes {
+        margin-top: 12px;
+        padding: 12px 14px;
+        background: rgba(0, 0, 0, 0.18);
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+        font-size: 13px;
+        color: $text-dim;
+        max-height: 180px;
+        overflow: auto;
+        white-space: pre-wrap;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+
+    .card-hint {
+        margin-top: 12px;
+        font-size: 12px;
+        color: $text-faint;
+    }
+}
+
+// --- Seções -----------------------------------------------------------
+section.features,
+section.steps {
+    padding: 48px 0;
+
+    h2 {
+        font-size: clamp(22px, 3vw, 30px);
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 36px;
+        letter-spacing: -0.3px;
+    }
+}
+
+.grid3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.feature {
+    background: $surface-1;
+    backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 22px;
+
+    .ico {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        background: $accent-soft;
+        color: $accent;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    p {
+        color: $text-dim;
+        font-size: 13.5px;
+    }
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+
+    .step {
+        background: $surface-1;
+        backdrop-filter: blur(20px) saturate(1.2);
+        border: 1px solid $border;
+        border-radius: $radius;
+        padding: 22px;
+
+        .num {
+            display: inline-grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: $accent-soft;
+            color: $accent;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        p {
+            color: $text-dim;
+            font-size: 13.5px;
+        }
+    }
+}
+
+// --- Rodapé -----------------------------------------------------------
+footer {
+    border-top: 1px solid $border;
+    padding: 26px 0;
+    text-align: center;
+
+    .container {
+        color: $text-faint;
+        font-size: 13px;
+    }
+
+    .foot-links {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        font-size: 13px;
+    }
+}
+
+code {
+    background: rgba(255, 255, 255, 0.07);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+// --- Responsivo -------------------------------------------------------
+@media (max-width: 720px) {
+    .masthead .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 48px 0 28px;
+    }
+}

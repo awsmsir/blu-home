@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blublublu — Homepage oficial</title>
+    <meta name="description" content="Blublublu — o app desktop para acessar seus projetos. Baixe a versão mais recente aqui." />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+    <header class="masthead">
+        <div class="container">
+            <div class="brand"><span class="dot"></span>Blublublu</div>
+            <nav class="nav">
+                <a href="#sobre">Sobre</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Seus projetos,<br />um só lugar.</h1>
+            <p class="lead">
+                O Blublublu é o app que reúne seus projetos web em abas,
+                com atualização obrigatória e download direto pelo GitHub.
+            </p>
+
+            <!-- Card de versão / download -->
+            <div class="version-card" id="download">
+                <div class="card-head">
+                    <h2>Versão do app</h2>
+                    <span id="ver-badge" class="badge badge--checking">Verificando…</span>
+                </div>
+                <div class="card-versions">
+                    <span>Atual: <b id="ver-current">–</b></span>
+                    <span>Disponível: <b id="ver-latest">…</b></span>
+                </div>
+                <div id="ver-notes" class="card-notes"></div>
+                <div id="ver-actions" class="card-actions"></div>
+                <div id="ver-hint" class="card-hint"></div>
+            </div>
+
+            <div class="cta">
+                <a class="btn btn--ghost" href="#recursos">Conhecer recursos</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="recursos">
+        <div class="container">
+            <h2>Recursos</h2>
+            <div class="grid3">
+                <div class="feature">
+                    <div class="ico">↵</div>
+                    <h3>Abas como o Chrome</h3>
+                    <p>Cada projeto abre em uma aba independente, com a mesma sessão e cache compartilhados.</p>
+                </div>
+                <div class="feature">
+                    <div class="ico">↻</div>
+                    <h3>Atualização garantida</h3>
+                    <p>Ao iniciar, o app verifica se há nova versão e deriva você para o download quando necessário.</p>
+                </div>
+                <div class="feature">
+                    <div class="ico">✓</div>
+                    <h3>Correção em português</h3>
+                    <p>Menu de contexto e corretor ortográfico em pt-BR, direto no app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps" id="sobre">
+        <div class="container">
+            <div class="step">
+                <span class="num">1</span>
+                <h3>Verifique a <code>release</code> mais recente</h3>
+                <p>O app consulta o GitHub assim que abre e informa se você está na versão atual.</p>
+            </div>
+            <div class="step">
+                <span class="num">2</span>
+                <h3>Baixe e instale</h3>
+                <p>Se houver nova versão, um botão leva direto ao asset de download da release.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="brand" style="justify-content:center; margin-bottom:8px;"><span class="dot"></span>Blublublu</div>
+            <div class="foot-links">
+                <a href="https://github.com/awsmsir/blu-home" target="_blank" rel="noopener">GitHub</a>
+                <a href="#download">Download</a>
+            </div>
+            <div>© <span id="year"></span> Blublublu</div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

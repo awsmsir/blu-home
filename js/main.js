@@ -137,10 +137,18 @@
         stateChecking();
         fetch(api, { headers: { Accept: 'application/vnd.github+json' } })
             .then(function (res) {
+                if (res.status === 404) {
+                    // Repositório existe, mas ainda não há release publicada.
+                    setBadge('Nenhuma versão publicada ainda', 'ok');
+                    buildDownloadButton(null);
+                    el.hint.textContent = 'Assim que uma release for criada, o botão de download aparecerá aqui.';
+                    return;
+                }
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 return res.json();
             })
             .then(function (release) {
+                if (!release) return; // já tratado em 404
                 if (isNewer(release.tag_name, CURRENT_VERSION)) {
                     stateNewVersion(release);
                 } else {

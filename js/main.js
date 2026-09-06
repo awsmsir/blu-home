@@ -52,8 +52,14 @@
 
     // --- Render ------------------------------------------------------
     function buildDownloadButton(release) {
+        if (!release) {
+            // Sem release mais nova: apenas o botão de re-verificar.
+            addGhost();
+            return;
+        }
+
         var asset = null;
-        if (release && release.assets && release.assets.length) {
+        if (release.assets && release.assets.length) {
             var key = ASSET_KEY.toLowerCase();
             for (var i = 0; i < release.assets.length; i++) {
                 var name = (release.assets[i].name || '').toLowerCase();
@@ -75,6 +81,10 @@
         a.rel = 'noopener';
         el.actions.appendChild(a);
 
+        addGhost();
+    }
+
+    function addGhost() {
         var ghost = document.createElement('button');
         ghost.className = 'btn btn--ghost';
         ghost.textContent = 'Verificar novamente';

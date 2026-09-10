@@ -209,6 +209,15 @@ html[data-theme='dark'] .nav .theme-toggle {
         font-size: clamp(15px, 2vw, 18px);
         max-width: 640px;
         margin: 0 auto 28px;
+
+        .lead-highlight {
+            color: var(--accent);
+            font-weight: 700;
+            background: var(--accent-soft);
+            padding: 2px 10px;
+            border-radius: 7px;
+            white-space: nowrap;
+        }
     }
 
     .cta {

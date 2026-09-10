@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blublublu — Homepage oficial</title>
-    <meta name="description" content="Blublublu — o app desktop para acessar seus projetos. Baixe a versão mais recente aqui." />
+    <meta name="description" content="Blublublu — o app que reúne seus apps de trabalho em um só painel: editor de texto, chat, atalhos, notificações e mais. Baixe a versão mais recente." />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="css/styles.css" />
+    <script>
+        // Aplica o tema salvo o quanto antes (padrão: claro), evitando "flash"
+        // do tema errado no carregamento.
+        (function () {
+            var t = localStorage.getItem('blu-theme') || 'light';
+            if (t !== 'light' && t !== 'dark') t = 'light';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
 </head>
 <body>
     <header class="masthead">
@@ -15,18 +25,20 @@
                 <a href="#sobre">Sobre</a>
                 <a href="#recursos">Recursos</a>
                 <a href="#download">Download</a>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">
+                    <i class="bi bi-sun-fill"></i>
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
             </nav>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1>Seus projetos,<br />um só lugar.</h1>
+            <h1>Seu espaço de trabalho,<br />em um só lugar.</h1>
             <p class="lead">
-                O Blublublu é o app que reúne seus projetos web em abas,
-                com atualização obrigatória e download direto pelo GitHub.
-            </p>
-            <p class="lead" style="font-size: 14px; margin-top: -14px;">
+                O Blublublu reúne seus apps — editor de texto, chat, atalhos,
+                notificações — num painel único, personalizável e sempre à mão.
                 Disponível para Windows, Linux e macOS.
             </p>
 
@@ -47,35 +59,106 @@
 
             <div class="cta">
                 <a class="btn btn--ghost" href="#recursos">Conhecer recursos</a>
+                <a class="btn btn--primary" href="#download">Baixar app</a>
+            </div>
+
+            <!-- Mockup do app em "janela de navegador" -->
+            <div class="hero-visual">
+                <div class="hv-bar">
+                    <span class="hv-dot hv-dot--r"></span>
+                    <span class="hv-dot hv-dot--y"></span>
+                    <span class="hv-dot hv-dot--g"></span>
+                    <span class="hv-addr">blublublu.app</span>
+                </div>
+                <img src="images/espaco_de_trabalhp_personalisavel.png" alt="Espaço de trabalho personalizável do Blublublu" />
             </div>
         </div>
     </section>
 
+    <!-- Recursos em cartões com screenshots -->
     <section class="features" id="recursos">
         <div class="container">
             <h2>Recursos</h2>
-            <div class="grid3">
-                <div class="feature">
-                    <div class="ico">↵</div>
-                    <h3>Abas como o Chrome</h3>
-                    <p>Cada projeto abre em uma aba independente, com a mesma sessão e cache compartilhados.</p>
-                </div>
-                <div class="feature">
-                    <div class="ico">↻</div>
-                    <h3>Atualização garantida</h3>
-                    <p>Ao iniciar, o app verifica se há nova versão e deriva você para o download quando necessário.</p>
-                </div>
-                <div class="feature">
-                    <div class="ico">✓</div>
-                    <h3>Correção em português</h3>
-                    <p>Menu de contexto e corretor ortográfico em pt-BR, direto no app.</p>
-                </div>
+            <p class="sub">Apps rápidos e personalizáveis para o seu dia a dia.</p>
+            <div class="grid-features">
+                <article class="feature-card">
+                    <div class="shot">
+                        <img src="images/editor_de_texto.png" alt="Screenshot do Editor de Texto" loading="lazy" />
+                    </div>
+                    <div class="card-body">
+                        <h3>Editor de Texto</h3>
+                        <p>Editor rico com templates <code>#</code>, variáveis, funções em cascata e atalhos de texto para respostas rápidas.</p>
+                    </div>
+                </article>
+                <article class="feature-card">
+                    <div class="shot">
+                        <img src="images/agrupe_apps.png" alt="Screenshot da função agrupar apps" loading="lazy" />
+                    </div>
+                    <div class="card-body">
+                        <h3>Agrupe apps</h3>
+                        <p>Reúna vários apps lado a lado em um único widget e monitore tudo de uma vez, sem trocar de aba.</p>
+                    </div>
+                </article>
+                <article class="feature-card">
+                    <div class="shot">
+                        <img src="images/atalhos.png" alt="Screenshot dos atalhos do Blublublu" loading="lazy" />
+                    </div>
+                    <div class="card-body">
+                        <h3>Atalhos</h3>
+                        <p>Botões que copiam textos prontos com um clique — respostas e frases frequentes sempre à mão.</p>
+                    </div>
+                </article>
+                <article class="feature-card">
+                    <div class="shot">
+                        <img src="images/notificacoes.png" alt="Screenshot das notificações" loading="lazy" />
+                    </div>
+                    <div class="card-body">
+                        <h3>Notificações</h3>
+                        <p>Centro de notificações com novidades, mudanças e avisos em um só lugar, atualizado em tempo real.</p>
+                    </div>
+                </article>
             </div>
+        </div>
+    </section>
+
+    <!-- Vitrines grandes -->
+    <section class="showcase" id="showcase">
+        <div class="container">
+            <article class="showrow">
+                <div class="showrow-media">
+                    <img src="images/divida_a_tela_em_varios_espacos.png" alt="Divida a tela em vários espaços de trabalho" loading="lazy" />
+                </div>
+                <div class="showrow-body">
+                    <h3>Divida a tela em vários espaços</h3>
+                    <p>Organize seu trabalho lado a lado: cada espaço é a página inteira, com o app aberto restrito a janela em que está — como abrir várias telas do mesmo painel.</p>
+                </div>
+            </article>
+
+            <article class="showrow showrow--flip">
+                <div class="showrow-media">
+                    <img src="images/personalizavel.png" alt="Personalize temas, paleta e fundo" loading="lazy" />
+                </div>
+                <div class="showrow-body">
+                    <h3>Personalize do seu jeito</h3>
+                    <p>Temas, paletas de cores, efeitos e fundos para deixar o espaço de trabalho com a sua cara — e o que você escolhe fica salvo na sua conta.</p>
+                </div>
+            </article>
+
+            <article class="showrow">
+                <div class="showrow-media">
+                    <img src="images/trabalhe_com_amigos.png" alt="Trabalhe em equipe com chat em tempo real" loading="lazy" />
+                </div>
+                <div class="showrow-body">
+                    <h3>Trabalhe com amigos</h3>
+                    <p>Forme equipes e converse em tempo real: o chat aparece só para quem compartilha uma equipe com você, com entrega instantânea no painel.</p>
+                </div>
+            </article>
         </div>
     </section>
 
     <section class="steps" id="sobre">
         <div class="container">
+            <h2>Como funciona</h2>
             <div class="step">
                 <span class="num">1</span>
                 <h3>Verifique a <code>release</code> mais recente</h3>
@@ -86,6 +169,14 @@
                 <h3>Baixe e instale</h3>
                 <p>Se houver nova versão, um botão por sistema leva direto ao asset da release (Windows, Linux e macOS).</p>
             </div>
+        </div>
+    </section>
+
+    <section class="cta-band">
+        <div class="container">
+            <h2>Pronto para começar?</h2>
+            <p>Baixe a versão mais recente e monte seu espaço de trabalho do seu jeito.</p>
+            <a class="btn btn--primary" href="#download">Ver versão e baixar</a>
         </div>
     </section>
 
@@ -100,6 +191,7 @@
         </div>
     </footer>
 
+    <script src="js/theme.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

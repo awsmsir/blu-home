@@ -13,10 +13,11 @@
     var CURRENT_VERSION = '0.1.0'; // versão atual do app
 
     // Plataformas suportadas e como reconhecer os assets de cada uma na release.
+    // `icon` = classe Bootstrap Icons usada no botão de download.
     var PLATFORMS = [
-        { key: 'windows', label: 'Windows', match: /\.(exe|msi|msix|appx)$/i, extra: 'setup' },
-        { key: 'macos', label: 'macOS', match: /\.(dmg|pkg)$/i, extra: 'dmg' },
-        { key: 'linux', label: 'Linux', match: /\.(appimage|deb|rpm)$/i, extra: 'appimage' },
+        { key: 'windows', label: 'Windows', icon: 'bi-windows', match: /\.(exe|msi|msix|appx)$/i, extra: 'setup' },
+        { key: 'macos', label: 'macOS', icon: 'bi-apple', match: /\.(dmg|pkg)$/i, extra: 'dmg' },
+        { key: 'linux', label: 'Linux', icon: 'bi-linux', match: /\.(appimage|deb|rpm)$/i, extra: 'appimage' },
     ];
     // Metadados gerados pelo electron-builder (vetor de assinatura etc.) — ignorar.
     var IGNORE_ASSET = /\.(blockmap|sha256|sha512|yml|yaml)$/i;
@@ -120,7 +121,7 @@
             // Release sem nenhum asset de instalador: cai para a página da release.
             var fallback = document.createElement('a');
             fallback.className = 'btn btn--primary';
-            fallback.textContent = 'Baixar nova versão';
+            fallback.innerHTML = '<i class="bi bi-github"></i> Baixar nova versão';
             fallback.href = release.html_url;
             fallback.target = '_blank';
             fallback.rel = 'noopener';
@@ -130,7 +131,7 @@
                 var m = available[i];
                 var a = document.createElement('a');
                 a.className = 'btn ' + (m.key === currentOS ? 'btn--primary' : 'btn--ghost');
-                a.textContent = 'Baixar para ' + m.label;
+                a.innerHTML = '<i class="bi ' + m.icon + '"></i> Baixar para ' + m.label;
                 a.href = perOS[m.key].browser_download_url || release.html_url;
                 a.title = perOS[m.key].name;
                 a.target = '_blank';
@@ -145,7 +146,7 @@
     function addGhost() {
         var ghost = document.createElement('button');
         ghost.className = 'btn btn--ghost';
-        ghost.textContent = 'Verificar novamente';
+        ghost.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Verificar novamente';
         ghost.addEventListener('click', check);
         el.actions.appendChild(ghost);
     }

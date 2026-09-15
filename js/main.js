@@ -8,7 +8,7 @@
     'use strict';
 
     // --- Configuração ------------------------------------------------
-    var OWNER = 'awsmsir'; // dono do repositório blu-home
+    var OWNER = 'markdotawsm'; // dono do repositório blu-home
     var REPO = 'blu-home'; // repositório público que hospeda a homepage e as releases do app
     var CURRENT_VERSION = '0.1.0'; // versão atual do app
 
